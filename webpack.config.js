@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: __dirname + '/src/js/main.js',
   output: {
     path: __dirname + '/dist',
@@ -18,7 +19,6 @@ module.exports = {
       })
   ],
   devServer: {
-      contentBase: '/static',
-      port: 7700,
+      contentBase: '/static'
   } 
 };

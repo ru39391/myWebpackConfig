@@ -2,9 +2,8 @@
   "name": "toxin",
   "version": "1.0.0",
   "description": "FSD frontend education program. The 2nd task.",
-  "main": "index.js",
   "scripts": {
-    "start": "webpack serve"
+    "dev": "webpack serve --config webpack.config.js"
   },
   "repository": {
     "type": "git",
