@@ -1,0 +1,9 @@
+//$red: #f00;
+
+@mixin red {
+    color: red;
+}
+
+h1 {
+    @include red;
+}

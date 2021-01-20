@@ -1,8 +1,9 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: __dirname + '/src/js/main.js',
+  entry: path.resolve(__dirname, 'src/js/main.js'),
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
@@ -14,11 +15,12 @@ module.exports = {
   },
   plugins: [
       new HtmlWebpackPlugin({
-          template: __dirname + '/index.html',
+          template: path.resolve(__dirname, 'index.html'),
           inject: 'body'
       })
   ],
   devServer: {
-      contentBase: '/static'
+      contentBase: path.resolve(__dirname, 'src'),
+      openPage: 'http://localhost:8000',
   } 
 };
