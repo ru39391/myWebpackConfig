@@ -61,6 +61,15 @@ module.exports = {
         {
           test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
           type: 'asset',
+        },
+        // SVG sprite loader. Any .svg can be imported as JS object
+        {
+          test: /\.svg$/,
+          use: [
+            { loader: 'svg-sprite-loader' },
+            'svg-transform-loader',
+            'svgo-loader'
+          ]
         }
       ]
   },
