@@ -39,7 +39,7 @@ module.exports = {
           test: /\.(sass|scss)$/,
           //use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader', 'sass-loader']
           use: [
-            loader: MiniCssExtractPlugin.loader
+            { loader: MiniCssExtractPlugin.loader },
             /*
             { loader: MiniCssExtractPlugin.loader, options: {
               publicPath: path.resolve(__dirname, '../static/css/')
