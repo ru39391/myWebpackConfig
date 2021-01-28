@@ -1,6 +1,7 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin'); // PUG loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
@@ -70,6 +71,26 @@ module.exports = {
             'svg-transform-loader',
             'svgo-loader'
           ]
+        },
+        {
+          test: /\.pug$/,
+          // include: path.join(__dirname, '../src/pug/'),
+          oneOf: [{
+            resourceQuery: /^\?pug/,
+            use: ["pug-plain-loader"]
+          }, {
+            use: [
+              "html-loader",
+              "pug-html-loader"
+            ]
+          }]
+          // loader: 'pug-html-loader'
+          // use: [
+          //   "file-loader?name=[path][name].html",
+          //   'extract-loader',
+          //   'html-loader',
+          //   'pug-html-loader'
+          // ]
         }
       ]
   },
@@ -78,8 +99,9 @@ module.exports = {
         filename: '[name].min.css',
       }),
       new HtmlWebpackPlugin({
-          template: path.resolve(__dirname, 'src/index.html'),
-          inject: 'body'
-      })
+          template: path.resolve(__dirname, '/src/pug/index.pug'),
+          
+      }),
+      // new HtmlWebpackPugPlugin()
   ]  
 };
