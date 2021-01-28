@@ -6,7 +6,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 
 module.exports = {
-  mode: 'development',
   entry: {
     //main: [path.resolve(__dirname, 'src/js/main.js'), path.resolve(__dirname, 'src/scss/main.scss')],
     main: path.resolve(__dirname, 'src/js/main.js'),
@@ -73,9 +72,5 @@ module.exports = {
           template: path.resolve(__dirname, 'src/index.html'),
           inject: 'body'
       })
-  ],
-  devServer: {
-      contentBase: path.resolve(__dirname, 'src'),
-      open: true,
-  } 
+  ]  
 };

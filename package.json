@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "FSD frontend education program. The 2nd task.",
   "scripts": {
-    "dev": "webpack serve --config webpack.config.js"
+    "dev": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
