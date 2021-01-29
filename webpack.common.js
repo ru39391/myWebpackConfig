@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 module.exports = {
   entry: {
@@ -67,9 +68,10 @@ module.exports = {
         {
           test: /\.svg$/,
           use: [
-            { loader: 'svg-sprite-loader' },
-            'svg-transform-loader',
-            'svgo-loader'
+            { loader: 'svg-sprite-loader', options: {
+              extract: true,
+              publicPath: '/'
+            } }
           ]
         },
         {
@@ -95,13 +97,19 @@ module.exports = {
       ]
   },
   plugins: [
-      new MiniCssExtractPlugin({
-        filename: '[name].min.css',
-      }),
-      new HtmlWebpackPlugin({
-          template: path.resolve(__dirname, '/src/pug/index.pug'),
-          
-      }),
-      // new HtmlWebpackPugPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].min.css',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '/src/pug/index.pug'),
+      minify: false
+    }),
+    // also generate a test page
+    new HtmlWebpackPlugin({
+      filename: 'test',
+      template: path.resolve(__dirname, '/src/pug/test.pug'),
+      minify: false
+    }),
+    new SpriteLoaderPlugin()
   ]  
 };
