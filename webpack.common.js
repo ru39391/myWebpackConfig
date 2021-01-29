@@ -20,7 +20,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin(),
+      // new TerserPlugin(),
       new CssMinimizerPlugin(),
     ],
   },
@@ -79,11 +79,11 @@ module.exports = {
           // include: path.join(__dirname, '../src/pug/'),
           oneOf: [{
             resourceQuery: /^\?pug/,
-            use: ["pug-plain-loader"]
+            use: ["pug-plain-loader?pretty=true"]
           }, {
             use: [
-              "html-loader",
-              "pug-html-loader"
+              "html-loader?minimize=false",
+              "pug-html-loader?pretty=true"
             ]
           }]
           // loader: 'pug-html-loader'
