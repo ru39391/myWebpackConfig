@@ -31,3 +31,22 @@ h2 {
     background: url(../img/bg.jpg) no-repeat scroll 0 0 rgba(0,0,0,0);
     background-size: 100% auto;
 }
+
+// svg sprite example
+
+.action {
+  color: red;
+  text-decoration: none;
+  &:hover {
+    color: black;
+  }
+}
+
+.icon-stroke {
+  stroke: currentColor;
+}
+
+.icon-md {
+  height: 3rem;
+  width: 3rem;
+}
