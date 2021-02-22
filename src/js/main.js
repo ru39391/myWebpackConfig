@@ -11,3 +11,5 @@ fetch(`../img/icons/icons.svg`).then(res => {
 }).then(data => {
   document.querySelector('.icons').innerHTML = data;
 });
+
+console.log('test');
