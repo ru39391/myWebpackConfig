@@ -1,11 +1,18 @@
+const fs = require('fs')
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin'); // PUG loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+
+const paths = {
+  src: path.join(__dirname, 'src'),
+  dist: path.join(__dirname, 'dist')
+};
+const pagesDir = `${paths.src}/pug/`;
+const pages = fs.readdirSync(pagesDir).filter(fileName => fileName.endsWith('.pug'));
 
 module.exports = {
   entry: {
@@ -13,14 +20,15 @@ module.exports = {
     main: path.resolve(__dirname, 'src/js/main.js'),
   },
   output: {
-    path: path.resolve(__dirname, '..//js/'),
-    filename: '[name].bundle.js',
-    publicPath: '/'
+    filename: 'js/[name].bundle.js',
+    publicPath: '/',
+    path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'img/[name][ext]'
   },
   optimization: {
     minimize: true,
     minimizer: [
-      // new TerserPlugin(),
+      new TerserPlugin(),
       new CssMinimizerPlugin(),
     ],
   },
@@ -38,14 +46,8 @@ module.exports = {
         },
         {
           test: /\.(sass|scss)$/,
-          //use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader', 'sass-loader']
           use: [
             { loader: MiniCssExtractPlugin.loader },
-            /*
-            { loader: MiniCssExtractPlugin.loader, options: {
-              publicPath: path.resolve(__dirname, '../static/css/')
-            }},
-            */
             { loader: 'css-loader', options: { importLoaders: 1 } },
             { loader: 'postcss-loader', options: {
               postcssOptions: {
@@ -62,54 +64,53 @@ module.exports = {
         },
         {
           test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-          type: 'asset',
+          type: 'asset/resource',
         },
-        // SVG sprite loader. Any .svg can be imported as JS object
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        },
         {
           test: /\.svg$/,
           use: [
             { loader: 'svg-sprite-loader', options: {
-              extract: true,
-              publicPath: '/'
-            } }
+                extract: true,
+                publicPath: '/',
+                spriteFilename: './img/icons/icons.svg'
+              }
+            }
           ]
         },
         {
           test: /\.pug$/,
-          // include: path.join(__dirname, '../src/pug/'),
-          oneOf: [{
-            resourceQuery: /^\?pug/,
-            use: ["pug-plain-loader?pretty=true"]
-          }, {
-            use: [
-              "html-loader?minimize=false",
-              "pug-html-loader?pretty=true"
-            ]
-          }]
-          // loader: 'pug-html-loader'
-          // use: [
-          //   "file-loader?name=[path][name].html",
-          //   'extract-loader',
-          //   'html-loader',
-          //   'pug-html-loader'
-          // ]
+          use: [
+            { loader: 'html-loader', options: {
+              minimize: false
+            }},
+            { loader: 'pug-html-loader', options: {
+              pretty: true
+            }}
+          ]
         }
       ]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].min.css',
+      filename: 'css/[name].min.css',
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '/src/pug/index.pug'),
+    ...pages.map(page => new HtmlWebpackPlugin({
+      template: `${pagesDir}/${page}`,
+      filename: `./${page.replace(/\.pug/,'.html')}`,
       minify: false
-    }),
-    // also generate a test page
-    new HtmlWebpackPlugin({
-      filename: 'test',
-      template: path.resolve(__dirname, '/src/pug/test.pug'),
-      minify: false
-    }),
-    new SpriteLoaderPlugin()
+    })),
+    new SpriteLoaderPlugin({
+      plainSprite: true
+    })
   ]  
 };

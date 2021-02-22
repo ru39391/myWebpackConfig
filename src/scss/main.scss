@@ -34,19 +34,22 @@ h2 {
 
 // svg sprite example
 
-.action {
-  color: red;
-  text-decoration: none;
-  &:hover {
-    color: black;
-  }
+.icons {
+  @extend .d-none;
 }
 
 .icon-stroke {
   stroke: currentColor;
 }
 
-.icon-md {
-  height: 3rem;
-  width: 3rem;
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../fonts/dmsans/DMSans-Regular.eot');
+    src: local('DM Sans Regular'), local('DMSans-Regular'),
+        url('../fonts/dmsans/DMSans-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/dmsans/DMSans-Regular.woff2') format('woff2'),
+        url('../fonts/dmsans/DMSans-Regular.woff') format('woff'),
+        url('../fonts/dmsans/DMSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }

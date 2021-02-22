@@ -1,8 +1,13 @@
 import '../scss/main.scss';
-import exampleData from '../img/Svg.svg';
 
-// let h2 = document.querySelector('h2');
-// console.log(h2.textContent);
+/* svg */
+function requireAll(r) {
+    r.keys().forEach(r);
+}
+requireAll(require.context('../img/icons/', true, /\.svg$/));
 
-console.log(exampleData);
-const usage = `<svg viewBox="${exampleData.viewBox}"><use xlink:href="${exampleData.url}"></use></svg>`;
+fetch(`../img/icons/icons.svg`).then(res => {
+  return res.text();
+}).then(data => {
+  document.querySelector('.icons').innerHTML = data;
+});
